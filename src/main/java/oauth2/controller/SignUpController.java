@@ -18,7 +18,7 @@ public class SignUpController {
 
     @GetMapping("/securedUrl")
     public ResponseEntity<String> getSecureInfo() {
-        return ResponseEntity.ok("You received very secure INFO");
+        return ResponseEntity.ok("You received very very secure INFO");
     }
 
     @PostMapping("/signUp")
