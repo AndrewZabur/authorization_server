@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  auth-server:
+    image: andrewzaburdocker/authorization-server
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    networks:
+      - auth-network
+    depends_on:
+      - auth-db
+
+  auth-db:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=zabur
+      - POSTGRES_DB=auth_DB
+    ports:
+      - "5432:5432"
+    networks:
+      - auth-network
+    volumes:
+      - auth_data:/var/lib/postgresql/data
+      - ./main/resources/flyway/authorization-consent-schema.sql:/docker-entrypoint-initdb.d/initdb.sql
+      - ./main/resources/flyway/authorization-schema.sql:/docker-entrypoint-initdb.d/initdb.sql
+      - ./main/resources/flyway/registered-client-schema.sql:/docker-entrypoint-initdb.d/initdb.sql
+      - ./main/resources/flyway/user-schema.sql:/docker-entrypoint-initdb.d/initdb.sql
+
+networks:
+  auth-network:
+
+volumes:
+  auth_data:
