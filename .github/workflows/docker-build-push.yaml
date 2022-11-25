@@ -19,6 +19,7 @@ jobs:
         name: Build & Push Docker image
         with:
           image: andrewzaburdocker/authorization-server
+          tags: v1, latest
           addLatest: true
           registry: docker.io
           username: ${{ secrets.DOCKER_USERNAME }}
