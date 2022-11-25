@@ -1,9 +1,19 @@
+name: Docker Build & Push
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
 steps:
   - uses: actions/checkout@v1.0
     name: Check out code
 
   - uses: mr-smithers-excellent/docker-build-push@v4
-    name: Build & push Docker image
+    name: Build & Push Docker image
     with:
       image: andrewzaburdocker/authorization-server
       tags: latest
