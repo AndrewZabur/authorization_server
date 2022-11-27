@@ -1,0 +1,14 @@
+name: Deploy to DigitalOcean
+
+on:
+  workflow_run:
+    workflows: [ "Docker Build & Push" ]
+    branches: [ "master" ]
+    types: [ completed ]
+
+jobs:
+  deployment:
+    runs-on: self-hosted
+    steps:
+      - name: Run application
+        run: docker container run -dp 8080:8080 --network auth-network andrewzaburdocker/authorization-server
