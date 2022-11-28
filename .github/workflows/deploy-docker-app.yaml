@@ -7,10 +7,10 @@ on:
     types: [ completed ]
 
 jobs:
-  deployment:
+  build:
     runs-on: self-hosted
-    steps:
 
+    steps:
       - uses: actions/checkout@v2
         name: Check out code
 
