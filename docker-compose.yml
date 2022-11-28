@@ -22,10 +22,10 @@ services:
       - auth-network
     volumes:
       - auth_data:/var/lib/postgresql/data
-      - ./main/resources/flyway/authorization-consent-schema.sql:/docker-entrypoint-initdb.d/initdb.sql
-      - ./main/resources/flyway/authorization-schema.sql:/docker-entrypoint-initdb.d/initdb.sql
-      - ./main/resources/flyway/registered-client-schema.sql:/docker-entrypoint-initdb.d/initdb.sql
-      - ./main/resources/flyway/user-schema.sql:/docker-entrypoint-initdb.d/initdb.sql
+      - ./main/resources/flyway/authorization-consent-schema.sql:/docker-entrypoint-initdb.d/1.sql
+      - ./main/resources/flyway/authorization-schema.sql:/docker-entrypoint-initdb.d/2.sql
+      - ./main/resources/flyway/registered-client-schema.sql:/docker-entrypoint-initdb.d/3.sql
+      - ./main/resources/flyway/user-schema.sql:/docker-entrypoint-initdb.d/4.sql
 
 networks:
   auth-network:
