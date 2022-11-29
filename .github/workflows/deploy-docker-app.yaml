@@ -12,4 +12,6 @@ jobs:
     steps:
 
       - name: Run application
-        run: docker run -dp 8080:8080 --network auth-network andrewzaburdocker/authorization-server
+        run: |
+        docker container rm -f auth-server
+        docker run -dp 8080:8080 --network auth-network --name auth-server andrewzaburdocker/authorization-server
