@@ -7,12 +7,21 @@ on:
     types: [ completed ]
 
 jobs:
-  deployment:
-    runs-on: self-hosted
+  deploy:
+    runs-on: ubuntu-latest
+    needs: Deploy app
 
     steps:
-      - uses: actions/checkout@v2
-        name: Check out code
-
-      - name: Run application
-        run: docker-compose up
+      - name: Deploy to Digital Ocean droplet via SSH action
+        uses: appleboy/ssh-action@v0.1.3
+        with:
+          host: 46.101.197.53
+          username: zabur
+          key: ${{ secrets.SSHKEY }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+          envs: andrewzaburdocker/authorization-server, docker.io, {{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}, GITHUB_SHA
+          script: |
+            # Login to registry
+            docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+            # Run a new container from a new image
+            docker run -dp 8080:8080 --network auth-network andrewzaburdocker/authorization-server
