@@ -18,6 +18,7 @@ jobs:
           host: 46.101.197.53
           username: zabur
           key: ${{ secrets.SSHKEY }}
+          key_path: .ssh/digital_ocean
           passphrase: ${{ secrets.PASSPHRASE }}
           envs: andrewzaburdocker/authorization-server, docker.io, {{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}, GITHUB_SHA
           script: |
