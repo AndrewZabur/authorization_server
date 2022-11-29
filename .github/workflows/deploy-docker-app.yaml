@@ -8,8 +8,8 @@ on:
 
 jobs:
   deployment:
+
     runs-on: ubuntu-latest
-    needs: Deploy app
 
     steps:
       - name: Deploy to Digital Ocean droplet via SSH action
