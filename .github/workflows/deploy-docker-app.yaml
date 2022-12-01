@@ -3,7 +3,6 @@ name: Deploy to DigitalOcean
 on:
   workflow_run:
     workflows: [ "Docker Build & Push" ]
-    branches: [ "master" ]
     types: [ completed ]
 
 jobs:
@@ -13,5 +12,5 @@ jobs:
 
       - name: Run application
         run: |
-        docker container rm -f auth-server \ 
+        docker container rm -f auth-server
         docker run -dp 8080:8080 --network auth-net --name auth-server andrewzaburdocker/authorization-server
