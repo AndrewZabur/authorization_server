@@ -19,12 +19,12 @@ spring:
             client-id: 614268108190-psioif0676ocqpp0qasth0imgqg5vp03.apps.googleusercontent.com
             client-secret: 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
             scope: openid, https://www.googleapis.com/auth/userinfo.profile, https://www.googleapis.com/auth/userinfo.email
-            redirectUri: http://46.101.197.53:8080/login/oauth2/code/google
+            redirectUri: http://zabur.oauth.com:8080/login/oauth2/code/google
           github:
             client-id: f91b8ed4d7ca6fcb1d50
             client-secret: 60796c9c7bed1cd378c7d9b45dc569176837581a
-            redirectUri: http://localhost:8080/login/oauth2/code/github
+            redirectUri: http://zabur.oauth.com:8080/login/oauth2/code/github
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8080
+          issuer-uri: http://zabur.oauth.com:8080/
 

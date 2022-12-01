@@ -91,7 +91,7 @@ public class AuthorizationServerConfig {
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
                 .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-                .redirectUri("http://46.101.197.53:8080/authorized")
+                .redirectUri("http://64.225.97.62:8080/authorized")
                 .scope("message.read")
                 .scope("message.write")
                 .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
