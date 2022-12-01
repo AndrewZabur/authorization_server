@@ -112,7 +112,7 @@ public class AuthorizationServerConfig {
     @Bean
     public ProviderSettings providerSettings() {
         return ProviderSettings.builder()
-                .issuer("http://localhost:8080")
+                .issuer("https://0f2f-64-225-97-62.eu.ngrok.io")
                 .build();
     }
 
