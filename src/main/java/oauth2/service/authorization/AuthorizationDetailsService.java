@@ -1,10 +1,11 @@
 package oauth2.service.authorization;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import oauth2.converter.AuthorizationDetailsConverter;
 import oauth2.model.AuthorizationDetails;
 import oauth2.repository.AuthorizationDetailsRepository;
-import org.springframework.security.oauth2.core.OAuth2TokenType;
+import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
@@ -12,7 +13,6 @@ import org.springframework.security.oauth2.server.authorization.client.Registere
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service

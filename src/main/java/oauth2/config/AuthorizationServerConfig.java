@@ -12,20 +12,22 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.oauth2.server.authorization.OAuth2AuthorizationServerConfigurer;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
-import org.springframework.security.oauth2.core.OAuth2TokenType;
-import org.springframework.security.oauth2.jwt.JwsHeader;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
+import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
-import org.springframework.security.oauth2.server.authorization.config.ClientSettings;
-import org.springframework.security.oauth2.server.authorization.config.ProviderSettings;
-import org.springframework.security.oauth2.server.authorization.config.TokenSettings;
+import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
+import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
+import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
+import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
 import org.springframework.security.oauth2.server.authorization.token.JwtEncodingContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
 import org.springframework.security.web.SecurityFilterChain;
@@ -47,25 +49,39 @@ public class AuthorizationServerConfig {
     @Autowired
     private AuthorizationClientConverter authorizationClientConverter;
 
+
+
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
+        OAuth2AuthorizationServerConfigurer authorizationServerConfigurer =
+                new OAuth2AuthorizationServerConfigurer();
 
-        OAuth2AuthorizationServerConfigurer<HttpSecurity> authorizationServerConfigurer =
-                new OAuth2AuthorizationServerConfigurer<>();
+        authorizationServerConfigurer.tokenRevocationEndpoint(tokenRevocationEndpointConfigurer -> {
+            tokenRevocationEndpointConfigurer.authenticationProvider(new AuthenticationProvider() {
+                @Override
+                public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+
+                    System.out.println(authentication);
+                    return null;
+                }
+
+                @Override
+                public boolean supports(Class<?> authentication) {
+                    return false;
+                }
+            });
+        });
 
         RequestMatcher endpointsMatcher = authorizationServerConfigurer.getEndpointsMatcher();
         http
-                .requestMatcher(endpointsMatcher)
-                .csrf(csrf -> csrf.ignoringRequestMatchers(endpointsMatcher))
-                .authorizeRequests(authorizeRequests ->
-                        authorizeRequests
-                                .anyRequest().authenticated()
-                )
-                .apply(authorizationServerConfigurer)
-                .and()
-                .formLogin(Customizer.withDefaults())
-                .oauth2Login(Customizer.withDefaults());
+                .securityMatcher(endpointsMatcher)
+                .authorizeHttpRequests(auth -> {
+                    auth.anyRequest().authenticated();
+                })
+                .oauth2Login(Customizer.withDefaults())
+                .csrf(csrf -> csrf.ignoringRequestMatchers(new RequestMatcher[]{endpointsMatcher}))
+                .apply(authorizationServerConfigurer);
 
         return http.build();
     }
@@ -73,10 +89,8 @@ public class AuthorizationServerConfig {
     @Bean
     public OAuth2TokenCustomizer<JwtEncodingContext> jwtCustomizer() {
         return context -> {
-            JwsHeader.Builder headers = context.getHeaders();
             JwtClaimsSet.Builder claims = context.getClaims();
             if (context.getTokenType().equals(OAuth2TokenType.ACCESS_TOKEN)) {
-                headers.header("header", "zabur_header");
                 claims.claim("claim", "zabur_claim");
             }
         };
@@ -91,7 +105,7 @@ public class AuthorizationServerConfig {
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
                 .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-                .redirectUri("https://0f2f-64-225-97-62.eu.ngrok.io/authorized")
+                .redirectUri("http://127.0.0.1:9090/authorized")
                 .scope("message.read")
                 .scope("message.write")
                 .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
@@ -110,9 +124,9 @@ public class AuthorizationServerConfig {
     }
 
     @Bean
-    public ProviderSettings providerSettings() {
-        return ProviderSettings.builder()
-                .issuer("https://0f2f-64-225-97-62.eu.ngrok.io")
+    public AuthorizationServerSettings authorizationServerSettings() {
+        return AuthorizationServerSettings.builder()
+                .issuer("http://localhost:8080")
                 .build();
     }
 

@@ -7,7 +7,7 @@ spring:
       ddl-auto: update
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   datasource:
-    jdbc-url: jdbc:postgresql://64.225.97.62:5432/auth_DB
+    jdbc-url: jdbc:postgresql://localhost:5432/auth_DB
     username: postgres
     password: zabur
 
@@ -19,12 +19,12 @@ spring:
             client-id: 614268108190-psioif0676ocqpp0qasth0imgqg5vp03.apps.googleusercontent.com
             client-secret: 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
             scope: openid, https://www.googleapis.com/auth/userinfo.profile, https://www.googleapis.com/auth/userinfo.email
-            redirectUri: https://0f2f-64-225-97-62.eu.ngrok.io/login/oauth2/code/google
+            redirectUri: http://localhost:8080/login/oauth2/code/google
           github:
             client-id: f91b8ed4d7ca6fcb1d50
             client-secret: 60796c9c7bed1cd378c7d9b45dc569176837581a
-            redirectUri: https://0f2f-64-225-97-62.eu.ngrok.io/login/oauth2/code/github
-      resourceserver:
+            redirectUri: http://127.0.0.1:8080/login/oauth2/code/github
+      resource-server:
         jwt:
-          issuer-uri: https://0f2f-64-225-97-62.eu.ngrok.io
+          issuer-uri: http://localhost:8080
 

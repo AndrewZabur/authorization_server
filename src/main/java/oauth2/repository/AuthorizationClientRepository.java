@@ -1,11 +1,11 @@
 package oauth2.repository;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import oauth2.converter.AuthorizationClientConverter;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 
-import javax.transaction.Transactional;
 
 @RequiredArgsConstructor
 public class AuthorizationClientRepository implements RegisteredClientRepository {

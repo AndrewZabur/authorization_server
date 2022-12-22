@@ -1,5 +1,6 @@
 package oauth2.service.authorization;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import oauth2.converter.AuthorizationConsentConverter;
 import oauth2.model.AuthorizationConsent;
@@ -8,7 +9,6 @@ import org.springframework.security.oauth2.server.authorization.OAuth2Authorizat
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsentService;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 
 @Service
 @RequiredArgsConstructor
