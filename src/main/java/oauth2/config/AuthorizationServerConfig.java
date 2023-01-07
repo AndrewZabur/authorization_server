@@ -71,7 +71,7 @@ public class AuthorizationServerConfig {
     @Bean
     public AuthorizationServerSettings authorizationServerSettings() {
         return AuthorizationServerSettings.builder()
-                .issuer("http://authorization.server.andrewzabur.com")
+                .issuer("http://authorization.server.andrewzabur.com:8080")
                 .build();
     }
 
