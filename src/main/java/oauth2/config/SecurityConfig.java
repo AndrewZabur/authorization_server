@@ -3,35 +3,27 @@ package oauth2.config;
 import oauth2.handler.FederatedIdentityAuthenticationSuccessHandler;
 import oauth2.handler.FormLoginAuthenticationSuccessHandler;
 import oauth2.service.impl.CustomUserDetailsService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private FederatedIdentityAuthenticationSuccessHandler federatedIdentityAuthenticationSuccessHandler;
-
-    @Autowired
-    private FormLoginAuthenticationSuccessHandler formLoginAuthenticationSuccessHandler;
-
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http,
+                                           FormLoginAuthenticationSuccessHandler formLoginAuthenticationSuccessHandler,
+                                           FederatedIdentityAuthenticationSuccessHandler federatedIdentityAuthenticationSuccessHandler) throws Exception {
         http
             .authorizeHttpRequests(auth -> {
-                auth.requestMatchers("/logout", "/signUp", "/authorized", "/login").permitAll();
+                auth.requestMatchers("/logout", "/signUp", "/login").permitAll();
                 auth.anyRequest().authenticated();
             })
             .csrf(csrf -> csrf.ignoringRequestMatchers("/signUp", "/logout"))
@@ -42,11 +34,17 @@ public class SecurityConfig {
     }
 
     @Bean
-    public DaoAuthenticationProvider authenticationProvider(CustomUserDetailsService customUserDetailsService) {
+    public DaoAuthenticationProvider authenticationProvider(PasswordEncoder passwordEncoder,
+                                                            CustomUserDetailsService customUserDetailsService) {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setPasswordEncoder(passwordEncoder);
         authenticationProvider.setUserDetailsService(customUserDetailsService);
         return authenticationProvider;
+    }
+
+    @Bean
+    protected PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(12);
     }
 
 }

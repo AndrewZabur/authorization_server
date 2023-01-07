@@ -1,19 +1,18 @@
 package oauth2.handler;
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import oauth2.model.UserAccount;
 import oauth2.repository.UserRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Set;
@@ -44,6 +43,7 @@ public class FederatedIdentityAuthenticationSuccessHandler extends SavedRequestA
                     .picture(authenticationToken.getPrincipal().getAttribute(PICTURE))
                     .registeredWith(authenticationToken.getAuthorizedClientRegistrationId())
                     .authorities(extractAuthorities(authentication.getAuthorities()))
+                    .firstLogin(true)
                     .build();
             
             userRepository.save(userAccount);

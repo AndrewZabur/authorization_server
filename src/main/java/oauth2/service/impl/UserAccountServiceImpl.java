@@ -24,6 +24,7 @@ public class UserAccountServiceImpl implements UserAccountService {
                 .password(encodedPassword)
                 .authorities(registration.getAuthorities())
                 .name(registration.getName())
+                .firstLogin(true)
                 .build();
 
         return userRepository.save(userAccount);
