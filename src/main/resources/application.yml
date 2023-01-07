@@ -6,6 +6,7 @@ spring:
     hibernate:
       ddl-auto: update
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
   datasource:
     jdbc-url: jdbc:postgresql://sql-auth-db-1:5432/auth_DB
     username: postgres
