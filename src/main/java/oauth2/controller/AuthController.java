@@ -24,6 +24,6 @@ public class AuthController {
 
     @GetMapping("/securedUrl")
     public ResponseEntity<String> getSecureInfo() {
-        return ResponseEntity.ok("You received very very secure INFO!");
+        return ResponseEntity.ok("You received sdfsafdvery very secure INFO!");
     }
 }
