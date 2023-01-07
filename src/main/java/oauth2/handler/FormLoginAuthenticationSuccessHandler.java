@@ -15,7 +15,7 @@ public class FormLoginAuthenticationSuccessHandler extends SavedRequestAwareAuth
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
 
-        System.out.println("ZAAAABBBUR" + authentication);
+        System.out.println("ZAacsascAAABBBUR" + authentication);
         super.onAuthenticationSuccess(request, response, authentication);
     }
 }
