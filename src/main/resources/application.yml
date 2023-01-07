@@ -7,7 +7,7 @@ spring:
       ddl-auto: update
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   datasource:
-    jdbc-url: jdbc:postgresql://sql-auth-db-1:5432/auth_DB
+    jdbc-url: jdbc:postgresql://auth-db:5432/auth_DB
     username: postgres
     password: zabur
 
