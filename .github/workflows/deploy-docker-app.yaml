@@ -7,7 +7,7 @@ on:
     types: [ completed ]
 
 jobs:
-  deployment:
+  build:
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
