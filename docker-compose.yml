@@ -2,7 +2,11 @@ version: '3.8'
 
 services:
   auth-server:
-    image: andrewzaburdocker/authorization-server
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        CD_PROFILE: ${CD_PROFILE}
     ports:
       - "8080:8080"
       - "8081:8081"
@@ -22,10 +26,10 @@ services:
       - auth-network
     volumes:
       - auth_data:/var/lib/postgresql/data
-      - ./main/resources/flyway/authorization-consent-schema.sql:/docker-entrypoint-initdb1.d
-      - ./main/resources/flyway/authorization-schema.sql:/docker-entrypoint-initdb2.d
-      - ./main/resources/flyway/registered-client-schema.sql:/docker-entrypoint-initdb3.d
-      - ./main/resources/flyway/user-schema.sql:/docker-entrypoint-initdb4.d
+      - ./main/resources/flyway/authorization-consent-schema.sql:/docker-entrypoint-initdb.d/1.sql
+      - ./main/resources/flyway/authorization-schema.sql:/docker-entrypoint-initdb.d/2.sql
+      - ./main/resources/flyway/registered-client-schema.sql:/docker-entrypoint-initdb.d/3.sql
+      - ./main/resources/flyway/user-schema.sql:/docker-entrypoint-initdb.d/4.sql
 
 networks:
   auth-network:

@@ -10,6 +10,9 @@ jobs:
   deployment:
     runs-on: self-hosted
     steps:
-
-      - name: Run application
-        run: docker container run -dp 8080:8080 --network auth-network --name auth-server andrewzaburdocker/authorization-server:v1
+      - uses: actions/checkout@v3
+        name: Check out code
+        working-directory: .
+        run: | 
+          CD_PROFILE=prod docker compose build
+          CD_PROFILE=prod docker compose up
