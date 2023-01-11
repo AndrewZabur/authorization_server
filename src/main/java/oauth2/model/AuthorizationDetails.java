@@ -35,7 +35,7 @@ public class AuthorizationDetails {
     @Column(name = "authorized_scopes")
     private String authorizedScopes;
 
-    @Column(name = "attributes")
+    @Column(name = "attributes", length = 1000)
     private String attributes;
 
     @Column(name = "state")
