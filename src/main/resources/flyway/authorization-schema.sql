@@ -9,7 +9,7 @@ CREATE TABLE authorization_details (
     principal_name varchar(200) NOT NULL,
     authorization_grant_type varchar(100) NOT NULL,
     authorized_scopes varchar(1000) DEFAULT NULL,
-    attributes text DEFAULT NULL,
+    attributes varchar(1000) DEFAULT NULL,
     state varchar(1000) DEFAULT NULL,
     authorization_code_value text DEFAULT NULL,
     authorization_code_issued_at timestamp DEFAULT NULL,
