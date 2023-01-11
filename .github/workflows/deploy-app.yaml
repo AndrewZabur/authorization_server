@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         name: Check out code
-        working-directory: .
+
       - run: | 
           CD_PROFILE=prod docker compose build
           CD_PROFILE=prod docker compose up
